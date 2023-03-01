@@ -45,7 +45,7 @@ public class RyanairInterconnectedFlightsService implements InterconnectedFlight
         LocalTime minDepartureTime = LocalTime.from(departureDateTime);
         LocalTime maxArrivalTime = LocalTime.from(arrivalDateTime);
 
-        Flux<List<Leg>> allRoutesFlux = ryanairRoutesService.findRoutes(departure, arrival, maxLegs);
+        Flux<List<Route>> allRoutesFlux = ryanairRoutesService.findRoutes(departure, arrival, maxLegs);
         Flux<InterconnectedFlightDto> allFlightCombinationsFlux = Flux.merge(allRoutesFlux.map(route -> {
             Flux<InterconnectedFlightDto> interconnectedFlights = Flux.merge(this.getAllInterconnectedFlightsForRoute(route, localDate, minDepartureTime, maxArrivalTime)).flatMapIterable(list -> list);
             return interconnectedFlights;
@@ -53,9 +53,9 @@ public class RyanairInterconnectedFlightsService implements InterconnectedFlight
         return allFlightCombinationsFlux;
     };
 
-    private Mono<List<InterconnectedFlightDto>> getAllInterconnectedFlightsForRoute(List<Leg> route, LocalDate localDate, LocalTime minDepartureTime, LocalTime maxArrivalTime) {
-        Airport departureAirport = route.get(0).getDepartureAirport();
-        Airport destinationAirport = route.get(route.size() -1).getArrivalAirport();
+    private Mono<List<InterconnectedFlightDto>> getAllInterconnectedFlightsForRoute(List<Route> route, LocalDate localDate, LocalTime minDepartureTime, LocalTime maxArrivalTime) {
+        Airport departureAirport = route.get(0).getFrom();
+        Airport destinationAirport = route.get(route.size() -1).getTo();
         Mono<List<LegDto>> allFlightsInRouteMono = this.getAllPossibleFlightsInRoute(route, localDate).collectList();
 
         Mono<List<InterconnectedFlightDto>> interconnectedFlightsMono = allFlightsInRouteMono.map(allFlightsInRoute -> {
@@ -99,16 +99,16 @@ public class RyanairInterconnectedFlightsService implements InterconnectedFlight
         return interconnectedFlightsMono;
     };
 
-    private Flux<LegDto> getAllPossibleFlightsInRoute(List<Leg> route, LocalDate localDate) {
-        return Flux.merge(Flux.fromIterable(route.stream().map(leg -> {
-            Airport departureAirport = leg.getDepartureAirport();
-            Airport arrivalAirport = leg.getArrivalAirport();
+    private Flux<LegDto> getAllPossibleFlightsInRoute(List<Route> routes, LocalDate localDate) {
+        return Flux.merge(Flux.fromIterable(routes.stream().map(route -> {
+            Airport departureAirport = route.getFrom();
+            Airport arrivalAirport = route.getTo();
 
            Flux<Flight> flights = ryanairScheduleService.getDaysScheduledFlights(departureAirport, arrivalAirport, localDate);
 
            return flights.map(flight-> {
-               LocalDateTime departureDateTime = LocalDateTime.of(localDate, LocalTime.parse(flight.getDepartureTime()));
-               LocalDateTime arrivalDateTime = LocalDateTime.of(localDate, LocalTime.parse(flight.getArrivalTime()));
+               LocalDateTime departureDateTime = LocalDateTime.of(localDate, flight.getDepartureTime());
+               LocalDateTime arrivalDateTime = LocalDateTime.of(localDate, flight.getArrivalTime());
 
                return new LegDto(departureAirport, arrivalAirport, departureDateTime, arrivalDateTime);
            });

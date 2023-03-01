@@ -1,34 +1,66 @@
 package com.github.ellabailo.interconnectedflightsrestservice.model;
 
-public class Flight {
-        private int number;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import java.time.LocalTime;
+import java.util.Objects;
 
-        private String departureTime;
+public class Flight implements Serializable {
 
-        private String arrivalTime;
+    private final String number;
+    private final LocalTime departureTime;
+    private final LocalTime arrivalTime;
 
-        public int getNumber() {
-            return number;
-        }
+    @JsonCreator
+    public Flight(
+            @JsonProperty("number") String number,
+            @JsonProperty("departureTime") String departureTime,
+            @JsonProperty("arrivalTime") String arrivalTime) {
+        this.number = number;
+        this.departureTime = LocalTime.parse(departureTime);
+        this.arrivalTime = LocalTime.parse(arrivalTime);
+    }
 
-        public void setNumber(int number) {
-            this.number = number;
-        }
+    public String getNumber() {
+        return number;
+    }
 
-        public String getDepartureTime() {
-            return departureTime;
-        }
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
 
-        public void setDepartureTimer(String departureTime) {
-            this.departureTime = departureTime;
-        }
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
 
-        public String getArrivalTime() {
-            return arrivalTime;
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Flight flight = (Flight) o;
+        return (Objects.equals(number, flight.number) &&
+                Objects.equals(departureTime, flight.departureTime) &&
+                Objects.equals(arrivalTime, flight.arrivalTime));
+    }
 
-        public void setArrivalTime(String arrivalTime) {
-            this.arrivalTime = arrivalTime;
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, departureTime, arrivalTime);
+    }
 
+    @Override
+    public String toString() {
+        return ("Flight{" +
+                "number='" +
+                number +
+                '\'' +
+                ", departureTime=" +
+                departureTime +
+                ", arrivalTime=" +
+                arrivalTime +
+                '}');
+    }
 }

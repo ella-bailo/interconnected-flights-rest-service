@@ -3,12 +3,9 @@ package com.github.ellabailo.interconnectedflightsrestservice.dto;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class InterconnectedFlightDto implements Serializable {
     private final int stops;
@@ -45,7 +42,7 @@ public class InterconnectedFlightDto implements Serializable {
 
     @Override
     public String toString() {
-        return "FlightScanResult{" +
+        return "InterconnectedFlightDto{" +
                 "stops=" + stops +
                 ", legs=" + legs +
                 '}';

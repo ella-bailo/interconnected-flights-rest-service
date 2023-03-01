@@ -2,7 +2,6 @@ package com.github.ellabailo.interconnectedflightsrestservice.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Airport implements Serializable {
 
@@ -12,7 +11,6 @@ public class Airport implements Serializable {
         this.iataCode = iataCode;
     }
 
-    @JsonValue
     public String getIataCode() {
         return iataCode;
     }

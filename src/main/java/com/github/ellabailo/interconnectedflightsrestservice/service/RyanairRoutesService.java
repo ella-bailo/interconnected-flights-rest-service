@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.ellabailo.interconnectedflightsrestservice.client.RyanairRoutesClient;
 import com.github.ellabailo.interconnectedflightsrestservice.model.Airport;
-import com.github.ellabailo.interconnectedflightsrestservice.model.Leg;
 import com.github.ellabailo.interconnectedflightsrestservice.model.Route;
 
 import reactor.core.publisher.Flux;
@@ -26,7 +25,7 @@ public class RyanairRoutesService implements RoutesService {
     @Autowired
     private RyanairRoutesClient ryanairRoutesClient;
 
-    public Flux<List<Leg>> findRoutes(Airport departure, Airport arrival, int maxLegs) {
+    public Flux<List<Route>> findRoutes(Airport departure, Airport arrival, int maxLegs) {
         Flux<Route> routes = ryanairRoutesClient.getRoutes();
          Mono<List<Route>> collectedRoutes = routes.collectList();
 
@@ -34,17 +33,17 @@ public class RyanairRoutesService implements RoutesService {
 
         Mono<DirectedGraph<Airport, DefaultEdge>> routesGraph = this.getRoutesGraph(collectedRoutes);
 
-        Mono<List<List<Leg>>> legsListMono = routesGraph.map(graph -> {
+        Mono<List<List<Route>>> legsListMono = routesGraph.map(graph -> {
             AllDirectedPaths<Airport, DefaultEdge> directedPathFinder = new AllDirectedPaths<>(graph);
 
             List<GraphPath<Airport, DefaultEdge>> directedPaths = directedPathFinder.getAllPaths(departure, arrival, true, maxLegs);
 
-            List<List<Leg>> allLegs = directedPaths.stream().map(directedPath -> {
+            List<List<Route>> allLegs = directedPaths.stream().map(directedPath -> {
                 List<Airport> airports = directedPath.getVertexList();
-                List<Leg> legs = new ArrayList<>();
+                List<Route> legs = new ArrayList<>();
 
                 for (int i = 0; i < airports.size() -1; i++) {
-                    Leg leg = new Leg(airports.get(i), airports.get(i + 1));
+                    Route leg = new Route(airports.get(i), airports.get(i + 1));
                     legs.add(leg);
                 };
                 return legs;
@@ -59,9 +58,9 @@ public class RyanairRoutesService implements RoutesService {
         Mono<DirectedGraph<Airport, DefaultEdge>> graphMono = collectedRoutes.map((collectedRoute) -> {
             DirectedGraph<Airport, DefaultEdge> graph = new DefaultDirectedGraph<Airport, DefaultEdge>(DefaultEdge.class);
             collectedRoute.forEach(route -> {
-                    graph.addVertex(route.getAirportFrom());
-                    graph.addVertex(route.getAirportTo());
-                    graph.addEdge(route.getAirportFrom(), route.getAirportTo());
+                    graph.addVertex(route.getFrom());
+                    graph.addVertex(route.getTo());
+                    graph.addEdge(route.getFrom(), route.getTo());
             });
             return graph;
         });

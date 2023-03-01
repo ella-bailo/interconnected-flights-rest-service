@@ -2,77 +2,46 @@ package com.github.ellabailo.interconnectedflightsrestservice.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
 
 public class Route {
 
-  private final Airport airportFrom;
-
-  private final Airport airportTo;
+  private final Airport from;
+  private final Airport to;
 
   @JsonCreator
   public Route(
-    @JsonProperty("airportFrom") Airport from,
-    @JsonProperty("airportTo") Airport to
-  ) {
-    this.airportFrom = from;
-    this.airportTo = to;
+      @JsonProperty("airportFrom") Airport from,
+      @JsonProperty("airportTo") Airport to) {
+    this.from = from;
+    this.to = to;
   }
 
-  private String connectingAirport;
-
-  private Boolean newRoute;
-
-  private Boolean seasonalRoute;
-
-  private String operator;
-
-  private String group;
-
-  public Airport getAirportFrom() {
-    return airportFrom;
+  public Airport getFrom() {
+    return from;
   }
 
-  public Airport getAirportTo() {
-    return airportTo;
+  public Airport getTo() {
+    return to;
   }
 
-  public String getConnectingAirport() {
-    return connectingAirport;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    Route route = (Route) o;
+    return Objects.equals(from, route.from) && Objects.equals(to, route.to);
   }
 
-  public void setConnectingAirport(String connectingAirport) {
-    this.connectingAirport = connectingAirport;
+  @Override
+  public int hashCode() {
+    return Objects.hash(from, to);
   }
 
-  public Boolean getNewRoute() {
-    return newRoute;
-  }
-
-  public void setNewRoute(Boolean newRoute) {
-    this.newRoute = newRoute;
-  }
-
-  public Boolean getSeasonalRoute() {
-    return seasonalRoute;
-  }
-
-  public void setSeasonalRoute(Boolean seasonalRoute) {
-    this.seasonalRoute = seasonalRoute;
-  }
-
-  public String getOperator() {
-    return operator;
-  }
-
-  public void setOperator(String operator) {
-    this.operator = operator;
-  }
-
-  public String getGroup() {
-    return group;
-  }
-
-  public void setGroup(String group) {
-    this.group = group;
+  @Override
+  public String toString() {
+    return "Route{" + "from=" + from + ", to=" + to + '}';
   }
 }
