@@ -6,14 +6,16 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({ "departureAirport", "arrivalAirport", "departureDateTime", "arrivalDateTime" })
 public class InterconnectedFlightDto implements Serializable {
     private final int stops;
     private final List<LegDto> legs;
 
     @JsonCreator
     public InterconnectedFlightDto(@JsonProperty("stops") int stops,
-                            @JsonProperty("legs") List<LegDto> legs) {
+            @JsonProperty("legs") List<LegDto> legs) {
         this.stops = stops;
         this.legs = legs;
     }
@@ -28,8 +30,10 @@ public class InterconnectedFlightDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         InterconnectedFlightDto that = (InterconnectedFlightDto) o;
         return stops == that.stops &&
                 Objects.equals(legs, that.legs);

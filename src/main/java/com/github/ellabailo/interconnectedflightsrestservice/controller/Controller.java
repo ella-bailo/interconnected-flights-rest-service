@@ -15,18 +15,23 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequestMapping("/api")
 public class Controller {
-    @Autowired 
+
+    @Autowired
     RyanairRoutesService ryanairRoutesService;
 
     @Autowired
     RyanairInterconnectedFlightsService ryanairInterconnectedFlightsService;
 
-     @GetMapping("interconnections")
-     public Flux<InterconnectedFlightDto> getFlights(@RequestParam String departure, @RequestParam String arrival, @RequestParam String departureDateTime, @RequestParam String arrivalDateTime ) {
-         Airport departureAirport = new Airport(departure);
-         Airport arrivalAirport = new Airport(arrival);
-         LocalDateTime parsedDepartureDateTime = LocalDateTime.parse(departureDateTime);
-         LocalDateTime parsedArrivalDateTime = LocalDateTime.parse(arrivalDateTime);
-         return ryanairInterconnectedFlightsService.getFlights(departureAirport, arrivalAirport, parsedDepartureDateTime, parsedArrivalDateTime);
-     }
+    @GetMapping("interconnections")
+    public Flux<InterconnectedFlightDto> getFlights(@RequestParam String departure, @RequestParam String arrival,
+            @RequestParam String departureDateTime, @RequestParam String arrivalDateTime) {
+        Airport departureAirport = new Airport(departure);
+        Airport arrivalAirport = new Airport(arrival);
+
+        LocalDateTime parsedDepartureDateTime = LocalDateTime.parse(departureDateTime);
+        LocalDateTime parsedArrivalDateTime = LocalDateTime.parse(arrivalDateTime);
+
+        return ryanairInterconnectedFlightsService.getFlights(departureAirport, arrivalAirport, parsedDepartureDateTime,
+                parsedArrivalDateTime);
+    }
 }

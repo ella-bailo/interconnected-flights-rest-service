@@ -31,7 +31,8 @@ public class RyanairScheduleService implements ScheduleService {
         String parsedDepartureAirport = String.valueOf(departureAirport);
         String parsedArrivalAirport = String.valueOf(arrivalAirport);
 
-        Mono<Schedule> scheduleMono = ryanairschedulesClient.getSchedule(parsedDepartureAirport, parsedArrivalAirport, parsedYear, parsedMonth);
+        Mono<Schedule> scheduleMono = ryanairschedulesClient.getSchedule(parsedDepartureAirport, parsedArrivalAirport,
+                parsedYear, parsedMonth);
 
         int dayOfMonth = localDate.getDayOfMonth();
 
@@ -40,7 +41,7 @@ public class RyanairScheduleService implements ScheduleService {
 
             List<Flight> flights = new ArrayList<Flight>();
             for (DaySchedule daySchedule : daySchedules) {
-                if (daySchedule.getDay() ==  dayOfMonth) {
+                if (daySchedule.getDay() == dayOfMonth) {
                     flights = daySchedule.getFlights();
                 }
             }

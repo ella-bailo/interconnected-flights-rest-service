@@ -7,7 +7,6 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 public class Flight implements Serializable {
-
     private final String number;
     private final LocalTime departureTime;
     private final LocalTime arrivalTime;

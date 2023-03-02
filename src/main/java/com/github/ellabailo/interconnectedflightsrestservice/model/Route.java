@@ -11,8 +11,9 @@ public class Route {
 
   @JsonCreator
   public Route(
-      @JsonProperty("airportFrom") Airport from,
-      @JsonProperty("airportTo") Airport to) {
+    @JsonProperty("airportFrom") Airport from,
+    @JsonProperty("airportTo") Airport to
+  ) {
     this.from = from;
     this.to = to;
   }
@@ -27,10 +28,8 @@ public class Route {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     Route route = (Route) o;
     return Objects.equals(from, route.from) && Objects.equals(to, route.to);
   }

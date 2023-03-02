@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 
 @Service
 public class RyanairRoutesClient implements RoutesClient {
+    
     private String baseUrl = "https://services-api.ryanair.com";
     private String routesUri = "/locate/3/routes";
 

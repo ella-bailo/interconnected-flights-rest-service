@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.ellabailo.interconnectedflightsrestservice.model.Airport;
+import com.github.ellabailo.interconnectedflightsrestservice.utils.DateTimeSerializer;
 
 public class LegDto implements Serializable {
     private final Airport departureAirport;
@@ -49,13 +50,13 @@ public class LegDto implements Serializable {
     }
 
     @JsonGetter("departureDateTime")
-    @JsonSerialize()
+    @JsonSerialize(using = DateTimeSerializer.class)
     public LocalDateTime getDepartureDateTime() {
         return departureDateTime;
     }
 
     @JsonGetter("arrivalDateTime")
-    @JsonSerialize()
+    @JsonSerialize(using = DateTimeSerializer.class)
     public LocalDateTime getArrivalDateTime() {
         return arrivalDateTime;
     }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Airport implements Serializable {
-
     private final String iataCode;
 
     public Airport(String iataCode) {
@@ -17,8 +16,10 @@ public class Airport implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Airport airport = (Airport) o;
         return Objects.equals(iataCode, airport.iataCode);
     }
@@ -33,4 +34,3 @@ public class Airport implements Serializable {
         return iataCode;
     }
 }
-

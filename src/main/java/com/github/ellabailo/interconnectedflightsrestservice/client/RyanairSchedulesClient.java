@@ -18,17 +18,19 @@ public class RyanairSchedulesClient {
     @Autowired
     public RyanairSchedulesClient() {
         this.webClient = WebClient.builder()
-        .baseUrl(baseUrl)
-        .build();
+                .baseUrl(baseUrl)
+                .build();
     }
 
     public Mono<Schedule> getSchedule(String departure, String arrival, String year, String month) {
         String formattedSchedulesUri = getFormattedSchedulesUri(departure, arrival, year, month);
         return webClient.get()
-        .uri(formattedSchedulesUri)
-        .retrieve()
-        .bodyToMono(Schedule.class);
+                .uri(formattedSchedulesUri)
+                .retrieve()
+                .bodyToMono(Schedule.class);
     }
 
-    private String getFormattedSchedulesUri (String departure, String arrival, String year, String month) { return String.format(schedulesUri, departure, arrival, year, month );};
+    private String getFormattedSchedulesUri(String departure, String arrival, String year, String month) {
+        return String.format(schedulesUri, departure, arrival, year, month);
+    };
 };

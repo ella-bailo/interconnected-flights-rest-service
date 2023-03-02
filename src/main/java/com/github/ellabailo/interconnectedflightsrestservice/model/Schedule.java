@@ -12,7 +12,7 @@ public class Schedule {
 
     @JsonCreator
     public Schedule(@JsonProperty("month") int month,
-                           @JsonProperty("days") List<DaySchedule> days) {
+            @JsonProperty("days") List<DaySchedule> days) {
         this.month = month;
         this.days = days;
     }
@@ -27,8 +27,10 @@ public class Schedule {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Schedule that = (Schedule) o;
         return month == that.month &&
                 Objects.equals(days, that.days);

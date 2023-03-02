@@ -27,43 +27,45 @@ public class RyanairRoutesService implements RoutesService {
 
     public Flux<List<Route>> findRoutes(Airport departure, Airport arrival, int maxLegs) {
         Flux<Route> routes = ryanairRoutesClient.getRoutes();
-         Mono<List<Route>> collectedRoutes = routes.collectList();
+        Mono<List<Route>> collectedRoutes = routes.collectList();
 
-         if (departure.equals(arrival) || maxLegs < 1) return Flux.just(new ArrayList<>());
+        if (departure.equals(arrival) || maxLegs < 1)
+            return Flux.just(new ArrayList<>());
 
         Mono<DirectedGraph<Airport, DefaultEdge>> routesGraph = this.getRoutesGraph(collectedRoutes);
 
-        Mono<List<List<Route>>> legsListMono = routesGraph.map(graph -> {
+        Mono<List<List<Route>>> routesList = routesGraph.map(graph -> {
             AllDirectedPaths<Airport, DefaultEdge> directedPathFinder = new AllDirectedPaths<>(graph);
+            List<GraphPath<Airport, DefaultEdge>> directedPaths = directedPathFinder.getAllPaths(departure, arrival,
+                    true, maxLegs);
 
-            List<GraphPath<Airport, DefaultEdge>> directedPaths = directedPathFinder.getAllPaths(departure, arrival, true, maxLegs);
-
-            List<List<Route>> allLegs = directedPaths.stream().map(directedPath -> {
+            List<List<Route>> allRoutes = directedPaths.stream().map(directedPath -> {
                 List<Airport> airports = directedPath.getVertexList();
                 List<Route> legs = new ArrayList<>();
 
-                for (int i = 0; i < airports.size() -1; i++) {
+                for (int i = 0; i < airports.size() - 1; i++) {
                     Route leg = new Route(airports.get(i), airports.get(i + 1));
                     legs.add(leg);
-                };
+                }
+                ;
                 return legs;
             }).collect(Collectors.toList());
-            
-            return allLegs;
+
+            return allRoutes;
         });
-        return Flux.merge(legsListMono).flatMapIterable(list -> list);
+        return Flux.merge(routesList).flatMapIterable(list -> list);
     }
 
-    private Mono<DirectedGraph<Airport,DefaultEdge>> getRoutesGraph(Mono<List<Route>> collectedRoutes) {
-        Mono<DirectedGraph<Airport, DefaultEdge>> graphMono = collectedRoutes.map((collectedRoute) -> {
-            DirectedGraph<Airport, DefaultEdge> graph = new DefaultDirectedGraph<Airport, DefaultEdge>(DefaultEdge.class);
+    private Mono<DirectedGraph<Airport, DefaultEdge>> getRoutesGraph(Mono<List<Route>> collectedRoutes) {
+        return collectedRoutes.map((collectedRoute) -> {
+            DirectedGraph<Airport, DefaultEdge> graph = new DefaultDirectedGraph<Airport, DefaultEdge>(
+                    DefaultEdge.class);
             collectedRoute.forEach(route -> {
-                    graph.addVertex(route.getFrom());
-                    graph.addVertex(route.getTo());
-                    graph.addEdge(route.getFrom(), route.getTo());
+                graph.addVertex(route.getFrom());
+                graph.addVertex(route.getTo());
+                graph.addEdge(route.getFrom(), route.getTo());
             });
             return graph;
         });
-        return graphMono;
     }
 }
