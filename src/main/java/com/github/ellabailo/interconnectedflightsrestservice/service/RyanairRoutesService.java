@@ -44,7 +44,7 @@ public class RyanairRoutesService implements RoutesService {
                 List<Route> legs = new ArrayList<>();
 
                 for (int i = 0; i < airports.size() - 1; i++) {
-                    Route leg = new Route(airports.get(i), airports.get(i + 1));
+                    Route leg = new Route(airports.get(i), airports.get(i + 1), "RYANAIR", "null");
                     legs.add(leg);
                 }
                 ;

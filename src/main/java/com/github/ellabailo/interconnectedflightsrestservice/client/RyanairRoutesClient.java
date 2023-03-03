@@ -1,5 +1,7 @@
 package com.github.ellabailo.interconnectedflightsrestservice.client;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,6 +28,7 @@ public class RyanairRoutesClient implements RoutesClient {
         return webClient.get()
                 .uri(routesUri)
                 .retrieve()
-                .bodyToFlux(Route.class);
+                .bodyToFlux(Route.class)
+                .filter(route -> Objects.isNull(route.getConnectingAirport()) && route.getOperator().equals("RYANAIR"));
     }
 }
