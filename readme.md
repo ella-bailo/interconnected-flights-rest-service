@@ -60,7 +60,7 @@ http://localhost:8080/api/interconnections?departure=MAN&arrival=AGP&departureDa
 
 ### Testing
 
-This is my first java, and spring boot project and as such have had to investigate each step in getting the project up and running and has meant that I have into some issues for the first time whilst familarising myself with the language and framework. Whilst setting up the tests I ran into an issue which I have not as of yet been able to resolve and unfortunately have not had the time to debug. I will therefore outline here what and how I had planed to test this app.
+This is my first java, and spring boot project and as such have had to investigate each step in getting the project up and running and has meant that I have run into some issues for the first time whilst familarising myself with the language and framework. Whilst setting up the tests I ran into an issue which I have not as of yet been able to resolve and unfortunately have not had the time to debug. I will therefore outline here what and how I had planed to test this app.
 
 My main focus for testing would have been in creating unit tests for the services. In order to do this I had planned to use mockserver, and the mockserver expectation initilaizer plug-in order to mock the response from the ryanair APIs. In the test folder I have created the expectation initilaizer with mock data which automatically initialises expectations before each test.
 
