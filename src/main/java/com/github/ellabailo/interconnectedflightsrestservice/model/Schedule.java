@@ -1,51 +1,47 @@
 package com.github.ellabailo.interconnectedflightsrestservice.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Schedule {
-    private final int month;
-    private final List<DaySchedule> days;
 
-    @JsonCreator
-    public Schedule(@JsonProperty("month") int month,
-            @JsonProperty("days") List<DaySchedule> days) {
-        this.month = month;
-        this.days = days;
-    }
+  private final int month;
+  private final List<DaySchedule> days;
 
-    public int getMonth() {
-        return month;
-    }
+  @JsonCreator
+  public Schedule(
+    @JsonProperty("month") int month,
+    @JsonProperty("days") List<DaySchedule> days
+  ) {
+    this.month = month;
+    this.days = days;
+  }
 
-    public List<DaySchedule> getDays() {
-        return days;
-    }
+  public int getMonth() {
+    return month;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Schedule that = (Schedule) o;
-        return month == that.month &&
-                Objects.equals(days, that.days);
-    }
+  public List<DaySchedule> getDays() {
+    return days;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(month, days);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Schedule that = (Schedule) o;
+    return month == that.month && Objects.equals(days, that.days);
+  }
 
-    @Override
-    public String toString() {
-        return "Schedule{" +
-                "month=" + month +
-                ", days=" + days +
-                '}';
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(month, days);
+  }
+
+  @Override
+  public String toString() {
+    return "Schedule{" + "month=" + month + ", days=" + days + '}';
+  }
 }

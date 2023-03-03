@@ -1,5 +1,3 @@
 package com.github.ellabailo.interconnectedflightsrestservice.service;
 
-public class RyanairSchedulesServiceTest {
-
-}
+public class RyanairSchedulesServiceTest {}

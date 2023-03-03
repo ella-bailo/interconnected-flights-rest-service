@@ -2,7 +2,6 @@ package com.github.ellabailo.interconnectedflightsrestservice.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,10 +14,11 @@ public class Route implements Serializable {
 
   @JsonCreator
   public Route(
-      @JsonProperty("airportFrom") Airport from,
-      @JsonProperty("airportTo") Airport to,
-      @JsonProperty("operator") String operator,
-      @JsonProperty("connectingAirport") String connectingAirport) {
+    @JsonProperty("airportFrom") Airport from,
+    @JsonProperty("airportTo") Airport to,
+    @JsonProperty("operator") String operator,
+    @JsonProperty("connectingAirport") String connectingAirport
+  ) {
     this.from = from;
     this.to = to;
     this.operator = operator;
@@ -43,13 +43,15 @@ public class Route implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     Route route = (Route) o;
-    return Objects.equals(from, route.from) && Objects.equals(to, route.to) && Objects.equals(operator, route.operator)
-        && Objects.equals(connectingAirport, route.connectingAirport);
+    return (
+      Objects.equals(from, route.from) &&
+      Objects.equals(to, route.to) &&
+      Objects.equals(operator, route.operator) &&
+      Objects.equals(connectingAirport, route.connectingAirport)
+    );
   }
 
   @Override
@@ -59,11 +61,21 @@ public class Route implements Serializable {
 
   @Override
   public String toString() {
-    return "Route{" +
-        "from='" + from + '\'' +
-        ", to='" + to + '\'' +
-        ", connectingAirport='" + connectingAirport + '\'' +
-        ", operator='" + operator + '\'' +
-        '}';
+    return (
+      "Route{" +
+      "from='" +
+      from +
+      '\'' +
+      ", to='" +
+      to +
+      '\'' +
+      ", connectingAirport='" +
+      connectingAirport +
+      '\'' +
+      ", operator='" +
+      operator +
+      '\'' +
+      '}'
+    );
   }
 }

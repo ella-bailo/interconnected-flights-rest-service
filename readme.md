@@ -75,12 +75,12 @@ Tests I would have written for each service:
 - Returns a Flux of a list of correct routes (with up to three legs) when max legs is 3.
 - Returns an empty Flux if max legs 0.
 - Returns an empty Flux if no routes found.
+- Throws a 404 error if departure or arrival airport not found in graph.
 - All legs in Route are unique.
 
 **RyanairSchedulesService**
 
 - Returns a Flux of flights for a given date with correct data (would have checked the presence of data in the blocked result);
-- Returns an empty flux if no routes found.
 
 **RyanairInterconnectedFlightsService**
 

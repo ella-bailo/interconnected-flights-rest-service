@@ -7,59 +7,63 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 public class Flight implements Serializable {
-    private final String number;
-    private final LocalTime departureTime;
-    private final LocalTime arrivalTime;
 
-    @JsonCreator
-    public Flight(
-            @JsonProperty("number") String number,
-            @JsonProperty("departureTime") String departureTime,
-            @JsonProperty("arrivalTime") String arrivalTime) {
-        this.number = number;
-        this.departureTime = LocalTime.parse(departureTime);
-        this.arrivalTime = LocalTime.parse(arrivalTime);
-    }
+  private final String number;
+  private final LocalTime departureTime;
+  private final LocalTime arrivalTime;
 
-    public String getNumber() {
-        return number;
-    }
+  @JsonCreator
+  public Flight(
+    @JsonProperty("number") String number,
+    @JsonProperty("departureTime") String departureTime,
+    @JsonProperty("arrivalTime") String arrivalTime
+  ) {
+    this.number = number;
+    this.departureTime = LocalTime.parse(departureTime);
+    this.arrivalTime = LocalTime.parse(arrivalTime);
+  }
 
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
+  public String getNumber() {
+    return number;
+  }
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
+  public LocalTime getDepartureTime() {
+    return departureTime;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Flight flight = (Flight) o;
-        return (Objects.equals(number, flight.number) &&
-                Objects.equals(departureTime, flight.departureTime) &&
-                Objects.equals(arrivalTime, flight.arrivalTime));
-    }
+  public LocalTime getArrivalTime() {
+    return arrivalTime;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(number, departureTime, arrivalTime);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Flight flight = (Flight) o;
+    return (
+      Objects.equals(number, flight.number) &&
+      Objects.equals(departureTime, flight.departureTime) &&
+      Objects.equals(arrivalTime, flight.arrivalTime)
+    );
+  }
 
-    @Override
-    public String toString() {
-        return ("Flight{" +
-                "number='" +
-                number +
-                '\'' +
-                ", departureTime=" +
-                departureTime +
-                ", arrivalTime=" +
-                arrivalTime +
-                '}');
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(number, departureTime, arrivalTime);
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "Flight{" +
+      "number='" +
+      number +
+      '\'' +
+      ", departureTime=" +
+      departureTime +
+      ", arrivalTime=" +
+      arrivalTime +
+      '}'
+    );
+  }
 }
