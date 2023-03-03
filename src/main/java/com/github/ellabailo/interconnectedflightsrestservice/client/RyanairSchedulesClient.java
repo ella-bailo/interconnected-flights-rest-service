@@ -10,9 +10,9 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class RyanairSchedulesClient {
+
     private String baseUrl = "https://services-api.ryanair.com";
     private String schedulesUri = "/timtbl/3/schedules/%s/%s/years/%s/months/%s";
-
     private final WebClient webClient;
 
     @Autowired

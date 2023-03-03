@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 
 @Service
 public class RyanairRoutesClient implements RoutesClient {
-    
+
     private String baseUrl = "https://services-api.ryanair.com";
     private String routesUri = "/locate/3/routes";
 
@@ -18,14 +18,14 @@ public class RyanairRoutesClient implements RoutesClient {
     @Autowired
     public RyanairRoutesClient() {
         this.webClient = WebClient.builder()
-        .baseUrl(baseUrl)
-        .build();
+                .baseUrl(baseUrl)
+                .build();
     }
 
     public Flux<Route> getRoutes() {
         return webClient.get()
-        .uri(routesUri)
-        .retrieve()
-        .bodyToFlux(Route.class);
+                .uri(routesUri)
+                .retrieve()
+                .bodyToFlux(Route.class);
     }
 }

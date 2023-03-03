@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 public class RyanairScheduleService implements ScheduleService {
 
     @Autowired
-    private RyanairSchedulesClient ryanairschedulesClient;
+    private RyanairSchedulesClient ryanairSchedulesClient;
 
     public Flux<Flight> getDaysScheduledFlights(Airport departureAirport, Airport arrivalAirport, LocalDate localDate) {
         int year = localDate.getYear();
@@ -31,7 +31,7 @@ public class RyanairScheduleService implements ScheduleService {
         String parsedDepartureAirport = String.valueOf(departureAirport);
         String parsedArrivalAirport = String.valueOf(arrivalAirport);
 
-        Mono<Schedule> scheduleMono = ryanairschedulesClient.getSchedule(parsedDepartureAirport, parsedArrivalAirport,
+        Mono<Schedule> scheduleMono = ryanairSchedulesClient.getSchedule(parsedDepartureAirport, parsedArrivalAirport,
                 parsedYear, parsedMonth);
 
         int dayOfMonth = localDate.getDayOfMonth();
